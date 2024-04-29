@@ -41,6 +41,7 @@ class Product(models.Model):
         related_name='Products',
     )
     price = models.FloatField(verbose_name="Цена за покупку", help_text="Введите цену")
+    manufactured_at = models.DateField(blank=True, null=True, verbose_name="Дата производства", help_text="Введите дату производства")
     created_at = models.DateField(
         blank=True, null=True, verbose_name="Дата создании записи"
     )

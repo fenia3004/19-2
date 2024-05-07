@@ -1,13 +1,12 @@
 from django.db import models
 
+
 class Category(models.Model):
     name = models.CharField(
-        max_length=100,
-        verbose_name="Наименование категории",
-        help_text="Введите наименование категории",
+        max_length=100, verbose_name="Категория", help_text="Введите название категории"
     )
-    description = models.CharField(
-        max_length=100, verbose_name="Описание", help_text="Введите Описание"
+    description = models.TextField(
+        blank=True, null=True, verbose_name="Описание", help_text="Введите описание"
     )
 
     class Meta:
@@ -17,42 +16,52 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(models.Model):
     name = models.CharField(
-        max_length=100, verbose_name="Наименование", help_text="Введите наименование"
+        max_length=70,
+        verbose_name="Наименование",
+        help_text="Введите название продукта",
     )
-    description = models.CharField(
-        max_length=100, verbose_name="Описание", help_text="Введите Описание"
+    description = models.TextField(
+        blank=True, null=True, verbose_name="Описание", help_text="Введите описание"
     )
-    image = models.ImageField(
-        upload_to="image",
+    photo = models.ImageField(
+        upload_to="",
         blank=True,
         null=True,
-        verbose_name="Изображение",
+        verbose_name="Фото",
         help_text="Загрузите фото",
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
-        verbose_name="Описание",
-        help_text="Введите Описание",
-        null=True,
+        verbose_name="Категория",
+        help_text="Введите название категории",
         blank=True,
-        related_name='Products',
+        null=True,
+        related_name='products',
     )
-    price = models.FloatField(verbose_name="Цена за покупку", help_text="Введите цену")
-    manufactured_at = models.DateField(blank=True, null=True, verbose_name="Дата производства", help_text="Введите дату производства")
+    price = models.FloatField(verbose_name="Цена",help_text="Введите описание")
     created_at = models.DateField(
-        blank=True, null=True, verbose_name="Дата создании записи"
+        blank=True,
+        null=True,
+        verbose_name="Дата создание записи",
+        help_text="Укажите дату создания",
     )
     updated_at = models.DateField(
-        blank=True, null=True, verbose_name="Дата последнего изменения записи"
+        blank=True, null=True, verbose_name="Дата последнего изменения"
+    )
+
+    manufactured_at = models.DateField(
+        blank=True, null=True, verbose_name="Дата производства продукта"
     )
 
     class Meta:
-        verbose_name = "Наименование"
-        verbose_name_plural = "Наименования"
-        ordering = ["category", "price", "name"]
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукты"
+        ordering = ["name", "category", "created_at", "updated_at"]
 
     def __str__(self):
         return self.name
+
